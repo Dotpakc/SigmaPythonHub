@@ -6,4 +6,4 @@ def index(request):
 
 
 def lolasdasdasd(request):
-    return HttpResponse('<h1>LOL</h1>')
+    return render(request, 'main/lol.html')
