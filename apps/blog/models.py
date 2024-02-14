@@ -11,7 +11,10 @@ class Post(models.Model):
     created_at = models.DateTimeField(verbose_name='Дата створення', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Дата оновлення', auto_now=True)
     
-    class Meta:
+    def __str__(self):
+        return f'{self.title} - {self.created_at} - {self.is_published}'
+    
+    class Meta: # Це потрібно для відображення моделі в адмінці
         verbose_name = 'Пост'
         verbose_name_plural = 'Пости'
         ordering = ['-created_at']
