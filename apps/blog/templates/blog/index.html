@@ -13,7 +13,7 @@
             <div class="row g-4">
                 {% for post in posts %}
                     <div class="col-4">
-                        <a href="#" class="text-decoration-none text-white">
+                        <a href="{% url 'blog:post' post.id %}" class="text-decoration-none text-white">
                        
                             <div class="card">
                                 <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="...">
