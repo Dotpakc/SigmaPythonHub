@@ -9,7 +9,10 @@
 
         <div class="mt-3 rounded-3 bg-body-tertiary p-4">
             <h3>Блог</h3>
-            <a href="{% url 'blog:create' %}" class="btn btn-primary">Создать пост</a>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+               Створити пост
+            </button>
             <hr class="my-4">
             <div class="row g-4">
                 {% for post in posts %}
@@ -50,6 +53,27 @@
 
 
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Створити пост</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="{% url 'blog:create' %}" method="post" enctype="multipart/form-data">
 
+            <div class="modal-body">
+                {% csrf_token %}
+                {{ form }}
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Створити</button>
+                
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
