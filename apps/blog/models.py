@@ -24,6 +24,7 @@ class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name='Пост', related_name='comments')
     author = models.CharField(verbose_name='Автор', max_length=50)
     content = models.TextField(verbose_name='Контент')
+    likes = models.IntegerField(verbose_name='Вподобайки', default=0, blank=True)
     created_at = models.DateTimeField(verbose_name='Дата створення', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Дата оновлення', auto_now=True)
     

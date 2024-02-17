@@ -41,7 +41,10 @@
             <hr class="my-4">
             {%for comment in post.comments.all%}
                 <div class="d-flex justify-content-between">
+                    
                     <div>
+                        <button type="button" class="btn btn-secondary" onclick="like_comment({{comment.id}})" id="btn_like_comment_{{comment.id}}">❤️ {{comment.likes}}</button>
+
                         <h5>{{comment.author}}</h5>
                         <p>{{comment.content}}</p>
                     </div>
@@ -63,5 +66,15 @@
         })
         .catch(error => console.log(error));
     });
+
+    function like_comment(comment_id){
+        fetch('{% url "blog:like_comment" post.id 0 %}'.replace('0', comment_id))
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('btn_like_comment_' + comment_id).innerText = `❤️ ${data.likes}`;
+        })
+        .catch(error => console.log(error));
+    }
+
 </script>
 {% endblock %}
