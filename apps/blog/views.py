@@ -2,8 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
+# @login_required
 def index(request):
     
     posts = Post.objects.all()
@@ -16,6 +19,7 @@ def index(request):
     
     return render(request, 'blog/index.html', context)
 
+@login_required
 def post(request, post_id):
     # post = Post.objects.get(id=post_id)
     form_comment = CommentForm()
@@ -29,13 +33,17 @@ def post(request, post_id):
     
     return render(request, 'blog/post.html', context)
 
+@login_required
 def create(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
     return redirect('blog:index')
 
+@login_required
 def comment(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
@@ -47,12 +55,14 @@ def comment(request, post_id):
             comment.save()
     return redirect('blog:post', post_id=post_id)
 
+@login_required
 def like(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     post.likes += 1
     post.save()
     return JsonResponse({'likes': post.likes})
 
+@login_required
 def like_comment(request, post_id, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     comment.likes += 1
