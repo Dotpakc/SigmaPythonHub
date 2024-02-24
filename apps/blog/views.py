@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 
 # Create your views here.
 # @login_required
@@ -41,6 +41,7 @@ def create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
+            messages.success(request, 'Пост створено')
     return redirect('blog:index')
 
 @login_required
@@ -54,6 +55,7 @@ def comment(request, post_id):
             comment.post = post
             comment.author = request.user
             comment.save()
+            messages.success(request, 'Коментар додано')
     return redirect('blog:post', post_id=post_id)
 
 @login_required
@@ -76,3 +78,9 @@ def like_comment(request, post_id, comment_id):
     comment.save()
     return JsonResponse({'likes': comment.likes.count()})
 
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id, author=request.user)
+    post.delete()
+    messages.success(request, 'Пост видалено')
+    return redirect('members:profile')

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .forms import UserCreateForm
+from apps.blog.forms import PostForm
 
 # Create your views here.
 def login_view(request):
@@ -49,5 +50,10 @@ def signup_view(request):
 
 @login_required
 def profile_view(request):
-    return render(request, 'members/profile.html')
+    form_create_post = PostForm()
+    context = {
+        'form_create_post': form_create_post
+    }
+    
+    return render(request, 'members/profile.html', context)
 
