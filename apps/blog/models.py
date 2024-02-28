@@ -1,3 +1,8 @@
+import os
+import uuid
+
+from PIL import Image
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -9,6 +14,7 @@ class Post(models.Model):
     title = models.CharField(verbose_name='Заголовок', max_length=255)
     content = models.TextField(verbose_name='Контент')
     image = models.ImageField(verbose_name='Малюнок', upload_to='post_images/')
+    image_thumbnail = models.ImageField(verbose_name='Мініатюра', upload_to='post_images/', blank=True)
     is_published = models.BooleanField(verbose_name='Опубліковано', default=False, blank=True)
     likes = models.ManyToManyField(User, related_name='post_likes', blank=True)
     views = models.IntegerField(verbose_name='Перегляди', default=0, blank=True)
@@ -22,6 +28,24 @@ class Post(models.Model):
         verbose_name = 'Пост'
         verbose_name_plural = 'Пости'
         ordering = ['-created_at']
+        
+        
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)     
+        if self.image:
+            img = Image.open(self.image.path)
+            if img.height > 440 or img.width > 820:
+                output_size = (820, 440)
+                img.thumbnail(output_size)
+                img.save(self.image.path)
+
+    
+                
+        
+            
+
+          
+            
         
         
 class Comment(models.Model):
