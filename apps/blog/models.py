@@ -31,30 +31,14 @@ class Post(models.Model):
         
         
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        
-        filename = f'{self.id}_{str(uuid.uuid4())[:6]}.{self.image.name.split(".")[-1]}'
-        old_image_path = self.image.path
-        new_image_path = self.image.path.replace(self.image.name, f'post_images/{filename}')
-        
-        os.rename(old_image_path, new_image_path)
-        self.image.name = new_image_path
-        
+        super().save(*args, **kwargs)     
         if self.image:
             img = Image.open(self.image.path)
             if img.height > 440 or img.width > 820:
                 output_size = (820, 440)
                 img.thumbnail(output_size)
                 img.save(self.image.path)
-                
-        if self.image_thumbnail:
-            img = Image.open(self.image.path)
-            if img.height > 236 or img.width > 440:
-                output_size = (440, 236)
-                thumbnail_path = f'post_thumbnails/{filename}'
-                img.thumbnail(output_size)
-                img.save(thumbnail_path)
-                self.thumbnail = thumbnail_path
+
     
                 
         
