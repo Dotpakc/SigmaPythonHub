@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'ckeditor',
+    'imagekit',
+    
     'apps.main',
     'apps.blog',
     'apps.members',
@@ -140,3 +143,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'members:login'
 LOGOUT_URL = 'members:logout'
 LOGIN_REDIRECT_URL = 'members:profile'
+
+
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'width': 800,
+        'height': 300,
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source'],
+        ],
+    },
+}
