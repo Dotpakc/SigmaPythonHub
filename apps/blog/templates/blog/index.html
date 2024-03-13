@@ -104,7 +104,8 @@
             like({{post.id}});
         });
     {% endfor %}
-
+  
+  {% if user.is_authenticated %}
     var cropper;
     document.getElementById('imageInput').addEventListener('change', function(event) {
       var input = event.target;
@@ -164,7 +165,7 @@
           }, 'image/jpeg');
       });
 
-
+{% endif %}
 </script>
   
 
