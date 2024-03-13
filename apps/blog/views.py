@@ -6,13 +6,17 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 #Paginator
 from django.core.paginator import Paginator
-
+#Search Q
+from django.db.models import Q
 
 # Create your views here.
 # @login_required
 def index(request):
-    
-    posts = Post.objects.filter(is_published=True)
+    query = request.GET.get('q')
+    if query:
+        posts = Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query), is_published=True)
+    else:
+        posts = Post.objects.filter(is_published=True)
     create_form = PostForm()
     
     paginator = Paginator(posts, 3)
@@ -106,3 +110,8 @@ def edit_post(request, post_id):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/edit_post.html', {'form': form, 'post': post})
+
+
+# def search(request):
+#     query = request.GET.get('q')
+    
