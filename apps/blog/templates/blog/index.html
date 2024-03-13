@@ -143,7 +143,7 @@
       var form = document.getElementById('postForm');
       form.addEventListener('submit', function(event) {
           event.preventDefault();
-          
+          this.querySelector('button').disabled = true;
           cropper.getCroppedCanvas().toBlob(function(blob) {
               var formData = new FormData(form);
               formData.append('image', blob, 'cropped_image.jpg');

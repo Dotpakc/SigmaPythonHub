@@ -8,6 +8,8 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 #Search Q
 from django.db.models import Q
+# send email
+from django.core.mail import send_mail
 
 # Create your views here.
 # @login_required
@@ -53,6 +55,11 @@ def create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
+            send_mail(
+                f'New post: {post.title} created by {post.author} https://ithillelcraft.com/blog/{post.id}/',
+                'New post created',
+                'no_reply@ithillelcraft.com',
+                ['lifirenko123@gmail.com'])
             messages.success(request, 'Пост створено')
     return redirect('blog:index')
 
