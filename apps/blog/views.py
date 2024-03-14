@@ -6,13 +6,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 #Paginator
 from django.core.paginator import Paginator
-
+#Search Q
+from django.db.models import Q
+# send email
+from django.core.mail import send_mail
 
 # Create your views here.
 # @login_required
 def index(request):
-    
-    posts = Post.objects.filter(is_published=True)
+    query = request.GET.get('q')
+    if query:
+        posts = Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query), is_published=True)
+    else:
+        posts = Post.objects.filter(is_published=True)
     create_form = PostForm()
     
     paginator = Paginator(posts, 3)
@@ -49,6 +55,11 @@ def create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
+            send_mail(
+                f'New post: {post.title} created by {post.author} https://ithillelcraft.com/blog/{post.id}/',
+                'New post created',
+                'no_reply@ithillelcraft.com',
+                ['lifirenko123@gmail.com'])
             messages.success(request, 'Пост створено')
     return redirect('blog:index')
 
@@ -106,3 +117,8 @@ def edit_post(request, post_id):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/edit_post.html', {'form': form, 'post': post})
+
+
+# def search(request):
+#     query = request.GET.get('q')
+    

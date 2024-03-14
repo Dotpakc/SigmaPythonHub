@@ -45,20 +45,18 @@
           <hr class="my-4">
           <h3 class="text-center">Підписки</h3>
           <div class="row g-4">
-            {% for follower in profile.get_followers %}
-            <div class="col-12 col-md-4">
-              <div class="card">
-                <img src="{{follower.profile.get_avatar}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title
-                  ">{{ follower.username }}</h5>
-                  <p class="card-text">{{ follower.profile.bio }}</p>
-                  <a href="{% url 'members:profile' follower.username %}" class="btn btn-primary">Переглянути профіль</a>
-                  
-                </div>
-              </div>
+            <ul class="list-unstyled">
+              {% for follower in profile.get_followers %}
+              <li><div class="d-flex align-items-left">
+                <img src="{{follower.profile.get_avatar}}" class="rounded-circle" alt="..." style="width: 30px; height: 30px;">
+                <a href="{% url 'members:profile' follower.username %}" class="text-decoration-none text-primary hover-underline">
+                    <small class="ms-3">@{{ follower.username }}</small>
+                </a>
             </div>
-            {% endfor %}  
+          </li>
+              {% endfor %}  
+            </ul>
+           
           </div>
         </div>
         {% endif %}
@@ -67,20 +65,17 @@
           <hr class="my-4">
           <h3 class="text-center">Підписники</h3>
           <div class="row g-4">
+            <ul class="list-unstyled">
             {% for follower in profile.get_following %}
-            <div class="col-12 col-md-4">
-              <div class="card">
-                <img src="{{follower.profile.get_avatar}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title
-                  ">{{ follower.username }}</h5>
-                  <p class="card-text">{{ follower.profile.bio }}</p>
-                  <a href="{% url 'members:profile' follower.username %}" class="btn btn-primary">Переглянути профіль</a>
-                  
-                </div>
-              </div>
-            </div>
+            <li><div class="d-flex align-items-left">
+              <img src="{{follower.get_avatar}}" class="rounded-circle" alt="..." style="width: 30px; height: 30px;">
+              <a href="{% url 'members:profile' follower.user.username %}" class="text-decoration-none text-primary hover-underline">
+                  <small class="ms-3">@{{ follower.user.username }}</small>
+              </a>
+          </div>
+        </li>
             {% endfor %}  
+          </ul>
           </div>
         </div>
         {% endif %}

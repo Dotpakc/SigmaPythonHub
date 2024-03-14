@@ -22,20 +22,23 @@ class Profile(models.Model):
     
     followers = models.ManyToManyField(User, related_name='following', blank=True)
     
+    
     def follow(self, user):
         self.followers.add(user)
     
     def unfollow(self, user):
         self.followers.remove(user)
         
-    def is_following(self, user):
+    def is_following(self, user):# 
         return user in self.followers.all()
     
     def get_followers(self):
         return self.followers.all()
-    #fIX ME
+    #fIX ME 
+    # #Ця функція повертає всіх користувачів, які підписані на даного користувача
     def get_following(self):
-        return User.objects.filter(following__user=self.user)
+        print(Profile.objects.filter(followers=self.user))
+        return Profile.objects.filter(followers__in=[self.user])
     
     
     def get_avatar(self):
