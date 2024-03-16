@@ -55,11 +55,11 @@ def create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            # send_mail(
-            #     f'New post: {post.title} created by {post.author} https://ithillelcraft.com/blog/{post.id}/',
-            #     'New post created',
-            #     'no_reply@ithillelcraft.com',
-            #     ['lifirenko123@gmail.com'])
+            send_mail(
+                f'New post: {post.title} created by {post.author} https://ithillelcraft.com/blog/{post.id}/',
+                'New post created',
+                'no_reply@ithillelcraft.com',
+                ['lifirenko123@gmail.com'])
             messages.success(request, 'Пост створено')
     return redirect('blog:index')
 
