@@ -92,7 +92,7 @@ class Product(models.Model):
     
     
     def get_absolute_url(self):
-        return reverse("catalog:product", kwargs={"slug": self.slug})
+        return reverse("catalog:product", kwargs={"category_slug": self.main_category().slug, "product_slug": self.slug})
     
     def images(self):
         return Image.objects.filter(product=self.id)
@@ -104,7 +104,8 @@ class Product(models.Model):
         return self.images().first()
         
     def main_category(self):
-        category = self.category.filter(category__productcategory__is_main=True).first() #вибираємо категорію, яка є основною
+        category = self.category.filter(productcategory__is_main=True).first()
+        print(category)
         if category:
             return category
         return self.category.first()
