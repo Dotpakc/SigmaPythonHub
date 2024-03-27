@@ -91,6 +91,9 @@ class Product(models.Model):
         return self.name
     
     
+    
+    
+    
     def get_absolute_url(self):
         return reverse("catalog:product", kwargs={"category_slug": self.main_category().slug, "slug": self.slug})
     
@@ -109,6 +112,7 @@ class Product(models.Model):
         if category:
             return category
         return self.category.first()
+
     
     @display(description='Ціна')
     def price_display(self):
