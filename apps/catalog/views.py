@@ -5,7 +5,7 @@ from .models import Catalog, Product
 from django.db.models import Q
 
 from apps.main.mixins import ListViewBreadcrumbMixin, DetailViewBreadcrumbMixin
-
+from .filters import ProductFilter
 
 # Create your views here.
 
@@ -32,12 +32,11 @@ class ProductByCategoryView(ListViewBreadcrumbMixin):
     
     def get_queryset(self):
         self.category = Catalog.objects.get(slug=self.kwargs['slug'])
-        self.categories = Catalog.objects.filter(parent=self.category)
-        self.all_categories = self.categories.get_descendants(include_self=True)
-        print(self.all_categories)
+        self.categories = Catalog.objects.filter(parent=self.category).select_related('parent')
+        self.all_categories = self.categories.get_descendants(include_self=True).values_list('id', flat=True)
         queryset = Product.objects.filter( Q(productcategory__category__in=self.all_categories) | Q(productcategory__category=self.category))
-        print(queryset)
-        return queryset
+        filter_query = ProductFilter(self.request.GET, queryset=queryset)
+        return filter_query
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
