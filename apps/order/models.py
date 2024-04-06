@@ -37,7 +37,7 @@ class Favorite(models.Model):
 class Order(models.Model):
     STATUS_CHOICES = (
         ('in_progress', 'В обробці'),
-        ('sent', 'Відправлено')
+        ('sent', 'Відправлено'),
         ('completed', 'Завершено'),
         ('canceled', 'Скасовано')
     )
@@ -60,7 +60,7 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата створення')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата оновлення')
     
-    paid = models.BooleanField(default=False, verbose_name='Оплачено', choices=STATUS_PAID, default=False)
+    paid = models.BooleanField(verbose_name='Оплачено', choices=STATUS_PAID, default=False)
     status = models.CharField(max_length=255, verbose_name='Статус', choices=STATUS_CHOICES, default='in_progress')
     
     class Meta:
