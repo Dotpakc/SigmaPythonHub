@@ -29,7 +29,7 @@ class ProductByCategoryView(ListViewBreadcrumbMixin):
     model = Catalog
     template_name = 'catalog/product_by_category.html'
     context_object_name = 'category'
-    
+        
     def get_queryset(self):
         self.category = Catalog.objects.get(slug=self.kwargs['slug'])
         self.categories = Catalog.objects.filter(parent=self.category).select_related('parent')
