@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'imagekit',
     "debug_toolbar",
     'django_filters',
+    'captcha',
     
     'apps.main',
     'apps.blog',
