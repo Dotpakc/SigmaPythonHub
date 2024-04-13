@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     'imagekit',
     "debug_toolbar",
     'django_filters',
+    'captcha',
+    'crispy_forms',
+    'crispy_bootstrap5',
     
     'apps.main',
     'apps.blog',
@@ -177,6 +180,12 @@ CKEDITOR_CONFIGS = {
         ],
     },
 }
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 
 # from config import EMAIL_HOST, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_PORT
 
