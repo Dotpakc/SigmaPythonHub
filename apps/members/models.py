@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse, reverse_lazy
+
 
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
@@ -47,6 +49,9 @@ class Profile(models.Model):
         if self.avatar:
             return self.avatar_thumbnail.url
         return '/media/avatars/default.png'
+    
+    def get_absolute_url(self):
+        return reverse_lazy('members:profile', kwargs={'username': self.user.username})
     
     def __str__(self):
         return f'{self.user.username}'
