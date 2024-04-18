@@ -19,9 +19,27 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from rest_framework import routers
+
+
+from apps.api.views import ProfileViewSet
+from apps.api.blog.views import PostViewSet
+
+routers = routers.DefaultRouter()
+routers.register(r'profiles', ProfileViewSet)
+routers.register(r'posts', PostViewSet)
+
+
+
+
 urlpatterns = [
     path("__debug__/", include("debug_toolbar.urls")),
     path('captcha/', include('captcha.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    
+    path('api/v1/', include(routers.urls)),
+    path('api/v2/', include('apps.api.urls')),
+    
     
     path('admin/', admin.site.urls),
     path('', include('apps.main.urls')),
