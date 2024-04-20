@@ -14,36 +14,20 @@
           <p>Що робити?</p>
         </div>
 
-        <div class="mt-4 bg-body-tertiary p-4">
-          <h3>Карусель</h3>
-          <div class="owl-carousel owl-theme">
-            <div class="item"><img src="https://via.placeholder.com/600x400" alt=""></div>
-          </div>
-        </div>
-
-
         <div class="mt-4 ">
-          <h3>Карусель</h3>
-          <div class="owl-carousel owl-theme">
+          <h3>Товари</h3>
+          <div class="owl-carousel owl-theme" id="products-carousel"></div>
+          <!-- <div class="owl-carousel owl-theme">
             <div class="item card">
               <a href="#" class="text-decoration-none text-white">
-              <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">100 грн</p>
-                </a>
-              </div>
+                <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">100 грн</p>
+                </div>
+              </a>
             </div>
-            <div class="item card">
-              <a href="#" class="text-decoration-none text-white">
-              <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">200 грн</p>
-                </a>
-              </div>
-            </div>
-          </div>
+          </div> -->
         </div>
         <style>
           .owl-nav {
@@ -86,24 +70,58 @@
 
 {% block js %}
 <script>
-  
-  $('.owl-carousel').owlCarousel({
-    loop:false,
-    margin:10,
-    nav:true,
-    responsive:{
-        0:{
-            items:1
-        },
-        600:{
-            items:3
-        },
-        1000:{
-            items:5
-        }
-    }
-})
+  $(document).ready(function() {
+      // Виконання запиту до API
+      $.ajax({
+          url: 'http://127.0.0.1:8000/api/v1/products/?format=json',
+          type: 'GET',
+          success: function(data) {
+              // Обробка отриманих даних
+              var products = data; // Припускаю, що отримані дані містять список товарів у полі "results"
+              console.log('products:', products);
+              var carousel = $('#products-carousel');
+                
+              // Додавання карточок товарів до каруселі
+              $.each(products, function(index, product) {
+                  let main_imgae = product.images[0];
+                  if (main_imgae == undefined) {
+                      main_imgae = { image: 'https://via.placeholder.com/600x400' };
+                  }
+                  console.log('main_imgae:', main_imgae);
+                  let fulllink = `/catalog/${product.category[0].slug}/${product.slug}/`;
 
+                  var item = $('<div class="item card">');
+                  var link = $(`<a href="${fulllink}" class="text-decoration-none text-white">`);
+                  var img = $(`<img src="${main_imgae.image}" class="card-img-top" alt="${product.name}" style="height: 200px;">`);
+                  var cardBody = $('<div class="card-body">');
+                  var title = $('<h5 class="card-title">' + product.name + '</h5>');
+                  var price = $('<p class="card-text">' + product.price + '</p>');
 
+                  link.append(img);
+                  cardBody.append(title);
+                  cardBody.append(price);
+                  link.append(cardBody);
+                  item.append(link);
+
+                  carousel.append(item);
+              });
+
+              // Ініціалізація каруселі
+              carousel.owlCarousel({
+                  loop: false,
+                  margin: 10,
+                  nav: true,
+                  responsive: {
+                      0: { items: 1 },
+                      600: { items: 3 },
+                      1000: { items: 5 }
+                  }
+              });
+          },
+          error: function(error) {
+              console.log('Помилка при отриманні даних з API:', error);
+          }
+      });
+  });
 </script>
 {% endblock %}
