@@ -89,6 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.main.context_processors.pages_navigation'
             ],
         },
     },
@@ -177,7 +178,12 @@ CKEDITOR_CONFIGS = {
             ['Bold', 'Italic', 'Underline'],
             ['NumberedList', 'BulletedList'],
             ['Link', 'Unlink'],
-            ['RemoveFormat', 'Source'],
+            ['RemoveFormat'],
+            ['Image', 'Table', 'HorizontalRule'],
+            ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'],
+            ['Undo', 'Redo'],
+            ['Maximize'],
+            ['About','Source'],
         ],
     },
 }
