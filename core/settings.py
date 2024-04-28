@@ -30,7 +30,7 @@ if os.path.isfile(dotenv_file):
 SECRET_KEY = 'django-insecure-ml^lwj9k&2wg%^=-ioh(h%=8$)9cba_(hi$=v%1p^h@&c$x2u='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['lol.ithillelcraft.com', 'localhost', '127.0.0.1','.vercel.app']
 
