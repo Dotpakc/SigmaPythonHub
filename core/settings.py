@@ -32,19 +32,19 @@ SECRET_KEY = 'django-insecure-ml^lwj9k&2wg%^=-ioh(h%=8$)9cba_(hi$=v%1p^h@&c$x2u=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['lol.ithillelcraft.com', 'localhost', '127.0.0.1','.vercel.app']
+ALLOWED_HOSTS = ['lol.ithillelcraft.com', 'localhost', '127.0.0.1','.vercel.app', ".now.sh"]
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://lol.ithillelcraft.com',
-    # Додайте сюди інші довірені домени, якщо потрібно
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://lol.ithillelcraft.com',
+#     # Додайте сюди інші довірені домени, якщо потрібно
+# ]
 
-# Application definition
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
-]
+# # Application definition
+# INTERNAL_IPS = [
+#     # ...
+#     "127.0.0.1",
+#     # ...
+# ]
 
 
 INSTALLED_APPS = [
@@ -166,7 +166,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'staticfiles/'
+STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
